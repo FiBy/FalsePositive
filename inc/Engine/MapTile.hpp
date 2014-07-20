@@ -8,10 +8,12 @@
 class MapTile : public sf::ConvexShape
 {
 public:
-    MapTile(std::vector<sf::Vector2f> edges);
+	MapTile(std::vector<sf::Vector2f> edges);
+
+	bool setNeighbor(MapTile* tile, int n=-1);
 
 private:
-     std::vector<MapTile*> _side;
+	 std::vector<MapTile*> _portal;
 };
 
 #endif // MAPTILE_HPP

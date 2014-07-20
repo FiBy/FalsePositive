@@ -2,21 +2,17 @@
 #include <SFML/Window.hpp>
 #include <vector>
 
-#include "Engine/MapTile.hpp"
+#include "Engine/Map.hpp"
 
 int main(int argc, char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "False Positive");
 
-    std::vector<sf::Vector2f> edges;
-    edges.push_back(sf::Vector2f(10,100));
-    edges.push_back(sf::Vector2f(10,300));
-    edges.push_back(sf::Vector2f(300,500));
-    edges.push_back(sf::Vector2f(300,300));
-
-    sf::Vector2f pos(5,5);
-
-    MapTile tile(edges,pos);
+	Map map(&window);
+	if (!map.loadFromFile("maps/chessboard.map"))
+	{
+		return EXIT_FAILURE;
+	}
 
 
     // run the program as long as the window is open
@@ -31,7 +27,7 @@ int main(int argc, char* argv[])
                 window.close();
         }
         window.clear();
-        window.draw(tile);
+		map.draw();
         window.display();
     }
 
