@@ -1,0 +1,17 @@
+#ifndef MAPTILE_HPP
+#define MAPTILE_HPP
+
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/ConvexShape.hpp>
+#include <vector>
+
+class MapTile : public sf::ConvexShape
+{
+public:
+    MapTile(std::vector<sf::Vector2f> edges);
+
+private:
+     std::vector<MapTile*> _side;
+};
+
+#endif // MAPTILE_HPP
