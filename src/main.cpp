@@ -3,12 +3,20 @@
 #include <vector>
 
 #include "Engine/Map.hpp"
+#include "Engine/Resources.hpp"
 
 int main(int argc, char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "False Positive");
 
-	Map map(&window);
+	Resources res;
+
+	if (!res.loadFonts())
+	{
+		return EXIT_FAILURE;
+	}
+
+	Map map(&window,&res);
 	if (!map.loadFromFile("maps/chessboard.map"))
 	{
 		return EXIT_FAILURE;

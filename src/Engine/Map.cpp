@@ -1,7 +1,9 @@
 #include "Engine/Map.hpp"
 
-Map::Map(sf::RenderTarget* rendertarget) :
-	_rendertarget(rendertarget)
+Map::Map(sf::RenderTarget* rendertarget,
+		 Resources* resources) :
+	_rendertarget(rendertarget),
+	_resources(resources)
 {
 }
 
@@ -19,12 +21,21 @@ void Map::draw()
 	{
 		_rendertarget->draw(*tile);
 	}
+	#ifdef DEBUG
+	for(sf::Text text : _enumerations)
+	{
+		_rendertarget->draw(text);
+	}
+	#endif // DEBUG
 }
 
 bool Map::loadFromFile(const std::string& filename)
 {
 	std::ifstream file(filename);
 	std::string tmpString;
+	#ifdef DEBUG
+	std::stringstream tmpSstream;
+	#endif // DEBUG
 	int tmpIntX;
 	int tmpIntY;
 	unsigned int tmpUint;
@@ -71,10 +82,20 @@ bool Map::loadFromFile(const std::string& filename)
 			{
 				return false;
 			}
-			file >> tileNumber;
 			if (edges.size() > 0)
+			{
 				_tile.push_back(new MapTile(edges));
+				#ifdef DEBUG
+				tmpSstream.str("");
+				tmpSstream << tileNumber;
+				_enumerations.push_back(sf::Text(tmpSstream.str(),
+												 _resources->debugfont));
+				_enumerations.back().setPosition(edges.front());
+				_enumerations.back().setScale(0.5f,0.5f);
+				#endif // DEBUG
+			}
 			edges.clear();
+			file >> tileNumber;
 			break;
 		default:
 		case '\n':

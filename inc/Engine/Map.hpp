@@ -5,14 +5,17 @@
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include "Engine/MapTile.hpp"
+#include "Engine/Resources.hpp"
 
 class Map
 {
 public:
-	Map(sf::RenderTarget* rendertarget);
+	Map(sf::RenderTarget* rendertarget,
+		Resources* resources);
 
 	~Map();
 
@@ -29,6 +32,12 @@ private:
 	std::vector<MapTile*> _tile;
 
 	sf::RenderTarget* _rendertarget;
+
+	Resources* _resources;
+
+	#ifdef DEBUG
+	std::vector<sf::Text> _enumerations;
+	#endif // DEBUG
 };
 
 #endif // MAP_HPP

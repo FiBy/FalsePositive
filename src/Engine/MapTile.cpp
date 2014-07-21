@@ -9,8 +9,10 @@ MapTile::MapTile(std::vector<sf::Vector2f> edges)
 		setPoint(p,edges[p]);
     }
 	setFillColor(sf::Color(127,127,127));
+	#ifdef DEBUG
 	setOutlineColor(sf::Color::White);
 	setOutlineThickness(1);
+	#endif //DEBUG
 }
 
 bool MapTile::setNeighbor(MapTile* tile, int n)
