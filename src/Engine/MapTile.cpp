@@ -15,26 +15,23 @@ MapTile::MapTile(std::vector<sf::Vector2f> edges)
 	#endif //DEBUG
 }
 
-bool MapTile::setNeighbor(MapTile* tile, int n)
+bool MapTile::setNeighbor(MapTile *tile)
 {
-	if (n < 0)
+	for (unsigned int t=0; t<getPointCount(); t++)
 	{
-		for (unsigned int t=0; t<getPointCount(); t++)
+		for (unsigned int o=0; o<tile->getPointCount(); o++)
 		{
-			for (unsigned int o=0; o<tile->getPointCount(); o++)
+			if (getPoint(t) == tile->getPoint(o))
 			{
-				if (getPoint(t) == tile->getPoint(o))
-				{
-					_portal[t] = tile;
-					return true;
-				}
+				_portal[t] = tile;
+				return true;
 			}
 		}
-		return false;
 	}
-	else
-	{
-		_portal[n] = tile;
-		return true;
-	}
+	return false;
+}
+
+void MapTile::setNeighbor(MapComponent* component, unsigned int n)
+{
+	_portal[n] = component;
 }

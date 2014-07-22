@@ -1,19 +1,34 @@
 #ifndef MAPTILE_HPP
 #define MAPTILE_HPP
 
+#include <climits>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-class MapTile : public sf::ConvexShape
+#include "Engine/MapComponent.hpp"
+
+class MapTile : public sf::ConvexShape, public MapComponent
 {
 public:
 	MapTile(std::vector<sf::Vector2f> edges);
 
-	bool setNeighbor(MapTile* tile, int n=-1);
+	/**
+	 * @brief setNeighbor
+	 * @param tile: neigboring tile
+	 * @return
+	 */
+	bool setNeighbor(MapTile* tile);
+
+	/**
+	 * @brief setNeighbor
+	 * @param component
+	 * @param n
+	 */
+	void setNeighbor(MapComponent* component, unsigned int n);
 
 private:
-	 std::vector<MapTile*> _portal;
+	std::vector<MapComponent*> _portal;
 };
 
 #endif // MAPTILE_HPP

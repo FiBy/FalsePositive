@@ -6,8 +6,6 @@ Resources::Resources()
 
 bool Resources::loadFonts()
 {
-
-
 	std::string  mono="/usr/share/fonts/dejavu/DejaVuSansMono.ttf";
 	if (debugfont.loadFromFile(mono))
 	{

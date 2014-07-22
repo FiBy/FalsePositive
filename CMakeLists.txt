@@ -5,12 +5,16 @@ include_directories(./inc)
 set(SRC_LIST
     src/main.cpp
     src/Engine/Map.cpp
+	src/Engine/MapComponent.cpp
+	src/Engine/MapPortal.cpp
 	src/Engine/MapTile.cpp
 	src/Engine/Resources.cpp
 )
 set(INC_LIST
     inc/main.hpp
-    inc/Engine/Map.hpp
+	inc/Engine/Map.hpp
+	inc/Engine/MapComponent.hpp
+	inc/Engine/MapPortal.hpp
 	inc/Engine/MapTile.hpp
 	inc/Engine/Resources.hpp
 )
