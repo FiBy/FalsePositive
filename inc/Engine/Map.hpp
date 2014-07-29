@@ -8,6 +8,7 @@
 #include <sstream>
 #include <vector>
 
+#include "Engine/MapPortal.hpp"
 #include "Engine/MapTile.hpp"
 #include "Engine/Resources.hpp"
 
@@ -30,6 +31,8 @@ public:
 
 private:
 	std::vector<MapTile*> _tile;
+
+	std::vector<MapPortal*> _portal;
 
 	sf::RenderTarget* _rendertarget;
 

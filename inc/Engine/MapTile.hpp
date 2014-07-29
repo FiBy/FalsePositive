@@ -8,7 +8,7 @@
 
 #include "Engine/MapComponent.hpp"
 
-class MapTile : public sf::ConvexShape, public MapComponent
+class MapTile : public MapComponent, public sf::ConvexShape
 {
 public:
 	MapTile(std::vector<sf::Vector2f> edges);

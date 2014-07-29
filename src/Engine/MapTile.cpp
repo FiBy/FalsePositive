@@ -12,7 +12,7 @@ MapTile::MapTile(std::vector<sf::Vector2f> edges)
 	#ifdef DEBUG
 	setOutlineColor(sf::Color::White);
 	setOutlineThickness(1);
-	#endif //DEBUG
+#endif //DEBUG
 }
 
 bool MapTile::setNeighbor(MapTile *tile)

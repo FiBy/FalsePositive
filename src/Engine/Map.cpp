@@ -13,6 +13,10 @@ Map::~Map()
 	{
 		delete tile;
 	}
+	for (MapPortal* portal : _portal)
+	{
+		delete portal;
+	}
 }
 
 void Map::draw()
@@ -22,6 +26,10 @@ void Map::draw()
 		_rendertarget->draw(*tile);
 	}
 	#ifdef DEBUG
+	for(MapPortal* portal : _portal)
+	{
+		_rendertarget->draw(*portal);
+	}
 	for(sf::Text text : _enumerations)
 	{
 		_rendertarget->draw(text);
@@ -49,7 +57,7 @@ bool Map::loadFromFile(const std::string& filename)
 	file >> nTiles;
 	unsigned int tileNumber=0;
 	std::vector<sf::Vector2f> edges;
-	std::vector<std::array<unsigned int,2>> portal;
+	std::vector<std::array<unsigned int,3>> portal;
 	while (tileNumber <= nTiles)
 	{
 		char nxt = file.peek();
@@ -73,7 +81,8 @@ bool Map::loadFromFile(const std::string& filename)
 					return false;
 				}
 				file >> tmpUint;
-				portal.push_back(std::array<unsigned int,2>{{tileNumber,tmpUint}});
+				portal.push_back(std::array<unsigned int,3>{{tileNumber,tmpUint,
+									static_cast<unsigned int>(edges.size())}});
 			}
 			break;
 		case 't':
@@ -104,9 +113,26 @@ bool Map::loadFromFile(const std::string& filename)
 			break;
 		}
 	}
-	for (std::array<unsigned int,2> p : portal)
+	for (std::array<unsigned int,3> p : portal)
 	{
-		_tile[p[0]-1]->setNeighbor(_tile[p[1]-1]);
+		if (p[1] > 0)
+		{
+			_tile[p[0]-1]->setNeighbor(_tile[p[1]-1],p[2]-1);
+		}
+		else
+		{
+			std::array<sf::Vector2f,2> edges;
+			edges[0] = _tile[p[0]-1]->getPoint(p[2]-1);
+			if (p[2] < _tile[p[0]-1]->getPointCount())
+			{
+				edges[1] = _tile[p[0]-1]->getPoint(p[2]);
+			}
+			else
+			{
+				edges[1] = _tile[p[0]-1]->getPoint(0);
+			}
+			_portal.push_back(new MapPortal(edges));
+		}
 	}
 	return true;
 }
