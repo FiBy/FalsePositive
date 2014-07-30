@@ -15,6 +15,16 @@ MapTile::MapTile(std::vector<sf::Vector2f> edges)
 #endif //DEBUG
 }
 
+sf::Vector2f MapTile::getCenter() const
+{
+	sf::Vector2f sum = sf::Vector2f(0,0);
+	for (unsigned int i=0;i<getPointCount();i++)
+	{
+		sum += getPoint(i);
+	}
+	return sf::Vector2f(sum.x/getPointCount(),sum.y/getPointCount()-8);
+}
+
 bool MapTile::setNeighbor(MapTile *tile)
 {
 	for (unsigned int t=0; t<getPointCount(); t++)

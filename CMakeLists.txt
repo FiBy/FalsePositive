@@ -1,9 +1,10 @@
 project(FalsePositive)
 cmake_minimum_required(VERSION 2.8)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/usr/share/SFML/cmake/Modules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/usr/share/SFML/cmake/Modules/" "/usr/local/share/SFML/cmake/Modules/")
 include_directories(./inc)
 set(SRC_LIST
     src/main.cpp
+	src/Engine/Engine.cpp
     src/Engine/Map.cpp
 	src/Engine/MapComponent.cpp
 	src/Engine/MapPortal.cpp
@@ -13,6 +14,7 @@ set(SRC_LIST
 )
 set(INC_LIST
     inc/main.hpp
+	inc/Engine/Engine.hpp
 	inc/Engine/Map.hpp
 	inc/Engine/MapComponent.hpp
 	inc/Engine/MapPortal.hpp

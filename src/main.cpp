@@ -2,12 +2,16 @@
 #include <SFML/Window.hpp>
 #include <vector>
 
+#include "Engine/Engine.hpp"
 #include "Engine/Map.hpp"
 #include "Engine/Resources.hpp"
 
 int main(int argc, char* argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "False Positive");
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 8;
+	sf::RenderWindow window(sf::VideoMode(800, 600), "False Positive",
+							sf::Style::Default,settings);
 
 	Resources res;
 
@@ -22,22 +26,11 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 
+	window.setFramerateLimit(30);
 
-    // run the program as long as the window is open
-    while (window.isOpen())
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-        window.clear();
-		map.draw();
-        window.display();
-    }
+	Engine engine(&window,&res,&map);
+
+	engine.run();
 
     return EXIT_SUCCESS;
 }

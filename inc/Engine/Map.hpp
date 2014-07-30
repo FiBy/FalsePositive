@@ -3,6 +3,7 @@
 
 #include <array>
 #include <fstream>
+#include <random>
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <sstream>
@@ -21,6 +22,8 @@ public:
 	~Map();
 
 	void draw();
+
+	MapPortal* getPortal(MapPortal* veto=nullptr);
 
 	/**
 	 * @brief loadFromFile

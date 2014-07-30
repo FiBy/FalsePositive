@@ -13,6 +13,8 @@ class MapTile : public MapComponent, public sf::ConvexShape
 public:
 	MapTile(std::vector<sf::Vector2f> edges);
 
+	sf::Vector2f getCenter() const;
+
 	/**
 	 * @brief setNeighbor
 	 * @param tile: neigboring tile

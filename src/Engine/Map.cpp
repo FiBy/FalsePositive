@@ -34,7 +34,28 @@ void Map::draw()
 	{
 		_rendertarget->draw(text);
 	}
-	#endif // DEBUG
+#endif // DEBUG
+}
+
+MapPortal* Map::getPortal(MapPortal* veto)
+{
+	MapPortal* portal = veto;
+	static std::default_random_engine e{};
+	std::uniform_real_distribution<float> d(0,1);
+
+	switch (_portal.size())
+	{
+	case 0:
+		return nullptr;
+	case 1:
+		return _portal.front();
+	default:
+		while (portal == veto)
+		{
+			portal = _portal[static_cast<size_t>(floor(d(e)*_portal.size()))];
+		}
+		return portal;
+	}
 }
 
 bool Map::loadFromFile(const std::string& filename)
@@ -99,7 +120,7 @@ bool Map::loadFromFile(const std::string& filename)
 				tmpSstream << tileNumber;
 				_enumerations.push_back(sf::Text(tmpSstream.str(),
 												 _resources->debugfont));
-				_enumerations.back().setPosition(edges.front());
+				_enumerations.back().setPosition(_tile.back()->getCenter());
 				_enumerations.back().setScale(0.5f,0.5f);
 				#endif // DEBUG
 			}
