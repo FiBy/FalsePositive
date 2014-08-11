@@ -37,25 +37,9 @@ void Map::draw()
 #endif // DEBUG
 }
 
-MapPortal* Map::getPortal(MapPortal* veto)
+MapPortal* Map::getPortal(MapPortal* veto) const
 {
-	MapPortal* portal = veto;
-	static std::default_random_engine e{};
-	std::uniform_real_distribution<float> d(0,1);
-
-	switch (_portal.size())
-	{
-	case 0:
-		return nullptr;
-	case 1:
-		return _portal.front();
-	default:
-		while (portal == veto)
-		{
-			portal = _portal[static_cast<size_t>(floor(d(e)*_portal.size()))];
-		}
-		return portal;
-	}
+	return getRandomEntry<MapPortal*>(_portal,veto);
 }
 
 bool Map::loadFromFile(const std::string& filename)
@@ -152,7 +136,8 @@ bool Map::loadFromFile(const std::string& filename)
 			{
 				edges[1] = _tile[p[0]-1]->getPoint(0);
 			}
-			_portal.push_back(new MapPortal(edges));
+			_portal.push_back(new MapPortal(edges,_tile[p[0]-1]));
+			_tile[p[0]-1]->setNeighbor(_portal.back(),p[2]-1);
 		}
 	}
 	return true;

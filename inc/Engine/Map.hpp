@@ -3,7 +3,6 @@
 
 #include <array>
 #include <fstream>
-#include <random>
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <sstream>
@@ -12,6 +11,7 @@
 #include "Engine/MapPortal.hpp"
 #include "Engine/MapTile.hpp"
 #include "Engine/Resources.hpp"
+#include "main.hpp"
 
 class Map
 {
@@ -23,7 +23,9 @@ public:
 
 	void draw();
 
-	MapPortal* getPortal(MapPortal* veto=nullptr);
+	MapComponent* getComponentAt(sf::Vector2f pos);
+
+	MapPortal* getPortal(MapPortal* veto=nullptr) const;
 
 	/**
 	 * @brief loadFromFile

@@ -7,14 +7,12 @@
 #include <SFML/System/Clock.hpp>
 
 #include "Engine/MapPortal.hpp"
+#include "Engine/MapTile.hpp"
 
 class Person : public sf::CircleShape
 {
 public:
-	Person(sf::Vector2f  spawn, MapComponent* goal=nullptr);
 	Person(MapComponent* spawn, MapComponent* goal=nullptr);
-
-	void addWaypoint(sf::Vector2f wp);
 
 	/**
 	 * @brief move
@@ -24,9 +22,11 @@ public:
 	bool move(sf::Time elapsed);
 
 private:
-	std::queue<sf::Vector2f> _waypoint;
+	std::queue<MapComponent*> _checkpoint;
 
 	MapComponent* _goal;
+
+	MapComponent* _pos;
 
 	float _speed;
 };

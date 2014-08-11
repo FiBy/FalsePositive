@@ -22,8 +22,6 @@ void Engine::run()
 
 	_person.push_back(new Person(portal1,portal2));
 
-	_person.back()->addWaypoint(portal2->getCenter()-sf::Vector2f(12,12));
-
 	sf::Clock clock;
 	// run the program as long as the window is open
 	while (_window->isOpen())

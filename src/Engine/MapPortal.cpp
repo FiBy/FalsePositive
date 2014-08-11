@@ -1,7 +1,8 @@
 #include "Engine/MapPortal.hpp"
 
-MapPortal::MapPortal(std::array<sf::Vector2f,2> edges) :
-	sf::VertexArray::VertexArray(sf::PrimitiveType::Lines,2)
+MapPortal::MapPortal(std::array<sf::Vector2f,2> edges, MapTile* neighbor) :
+	sf::VertexArray::VertexArray(sf::PrimitiveType::Lines,2),
+	_neighbor(neighbor)
 {
 	operator[](0) = sf::Vertex(edges[0],sf::Color::Red);
 	operator[](1) = sf::Vertex(edges[1],sf::Color::Red);

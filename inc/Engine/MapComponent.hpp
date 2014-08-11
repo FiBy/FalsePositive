@@ -9,6 +9,8 @@ public:
 	MapComponent();
 
 	virtual sf::Vector2f getCenter() const =0;
+
+	virtual MapComponent* getDirectionTo(MapComponent* goal) const =0;
 };
 
 #endif // MAPCOMPONENT_HPP
