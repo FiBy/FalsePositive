@@ -12,7 +12,7 @@
 class Person : public sf::CircleShape
 {
 public:
-	Person(MapComponent* spawn, MapComponent* goal=nullptr);
+	Person(const MapComponent* spawn, const MapComponent* goal=nullptr);
 
 	/**
 	 * @brief move
@@ -22,11 +22,9 @@ public:
 	bool move(sf::Time elapsed);
 
 private:
-	std::queue<MapComponent*> _checkpoint;
+	std::queue<const MapComponent*> _checkpoint;
 
-	MapComponent* _goal;
-
-	MapComponent* _pos;
+	const MapComponent* _goal;
 
 	float _speed;
 };

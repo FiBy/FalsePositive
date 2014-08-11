@@ -12,7 +12,7 @@ MapTile::MapTile(std::vector<sf::Vector2f> edges)
 	#ifdef DEBUG
 	setOutlineColor(sf::Color::White);
 	setOutlineThickness(1);
-#endif //DEBUG
+	#endif //DEBUG
 }
 
 sf::Vector2f MapTile::getCenter() const
@@ -25,24 +25,19 @@ sf::Vector2f MapTile::getCenter() const
 	return sf::Vector2f(sum.x/getPointCount(),sum.y/getPointCount()-8);
 }
 
-MapComponent *MapTile::getDirectionTo(MapComponent* goal) const
+const MapComponent* MapTile::getDirectionTo(const MapComponent* goal) const
 {
-	for (MapComponent* mc : _portal)
-	{
-		if (mc == goal)
-			return mc;
-	}
-	return getNeighbor();
+	return _getAStarPath(this,goal)[0];
 }
 
-MapComponent* MapTile::getNeighbor(size_t n) const
+const MapComponent* MapTile::getNeighbor(size_t n) const
 {
 	return _portal[n];
 }
 
-MapComponent* MapTile::getNeighbor(MapComponent* veto) const
+const MapComponent *MapTile::getNeighbor(const MapComponent* veto) const
 {
-	return getRandomEntry<MapComponent*>(_portal,veto);
+	return getRandomEntry<const MapComponent*>(_portal,veto);
 }
 
 bool MapTile::setNeighbor(MapTile *tile)

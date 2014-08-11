@@ -9,6 +9,7 @@ set(SRC_LIST
 	src/Engine/MapComponent.cpp
 	src/Engine/MapPortal.cpp
 	src/Engine/MapTile.cpp
+	src/Engine/PathNode.cpp
 	src/Engine/Person.cpp
 	src/Engine/Resources.cpp
 )
@@ -19,6 +20,7 @@ set(INC_LIST
 	inc/Engine/MapComponent.hpp
 	inc/Engine/MapPortal.hpp
 	inc/Engine/MapTile.hpp
+	inc/Engine/PathNode.hpp
 	inc/Engine/Person.hpp
 	inc/Engine/Resources.hpp
 )

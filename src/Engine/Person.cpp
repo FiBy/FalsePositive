@@ -1,6 +1,6 @@
 #include "Engine/Person.hpp"
 
-Person::Person(MapComponent* spawn, MapComponent* goal) :
+Person::Person(const MapComponent* spawn, const MapComponent* goal) :
 	_goal(goal),
 	_speed(50.0f)
 {
@@ -24,12 +24,11 @@ bool Person::move(sf::Time elapsed)
 	float step = elapsed.asSeconds()*_speed;
 	if (step > dist)
 	{
-		_pos = _checkpoint.front();
-		_checkpoint.pop();
-		if (_pos != _goal)
+		if (_checkpoint.front() != _goal)
 		{
-			_checkpoint.push(_pos->getDirectionTo(_goal));
+			_checkpoint.push(_checkpoint.front()->getDirectionTo(_goal));
 		}
+		_checkpoint.pop();
 	}
 	direction.x*=step/dist;
 	direction.y*=step/dist;
