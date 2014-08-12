@@ -3,6 +3,8 @@
 
 class MapComponent;
 
+#include <algorithm>
+#include <cstddef>
 #include <list>
 #include <SFML/System/Vector2.hpp>
 #include <vector>
