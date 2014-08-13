@@ -14,17 +14,17 @@ public:
 
 	sf::Vector2f getCenter() const;
 
-	const MapComponent* getDirectionTo(const MapComponent*) const
+	MapComponent* getDirectionTo(MapComponent*) const
 		{ return _neighbor; }
 
-	const MapComponent* getNeighbor(size_t) const
+	MapComponent* getNeighbor(size_t) const
 		{ return _neighbor; }
 
 	size_t getNNeighbors() const
 		{ return 1; }
 
 private:
-	const MapTile* _neighbor;
+	MapTile* _neighbor;
 };
 
 #endif // MAPPORTAL_HPP

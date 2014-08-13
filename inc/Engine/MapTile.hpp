@@ -20,16 +20,16 @@ public:
 	 * @param goal
 	 * @return direction to goal
 	 */
-	const MapComponent* getDirectionTo(const MapComponent* goal) const;
+	MapComponent* getDirectionTo(MapComponent* goal) const;
 
-	const MapComponent *getNeighbor(size_t n) const;
+	MapComponent *getNeighbor(size_t n) const;
 
 	/**
 	 * @brief getNeighbor
 	 * @param veto
 	 * @return random Neighbor (but not veto)
 	 */
-	const MapComponent* getNeighbor(const MapComponent* veto=nullptr) const;
+	MapComponent* getNeighbor(MapComponent* veto=nullptr) const;
 
 	size_t getNNeighbors() const
 		{ return _portal.size(); }
@@ -49,7 +49,7 @@ public:
 	void setNeighbor(MapComponent* component, unsigned int n);
 
 private:
-	std::vector<const MapComponent*> _portal;
+	std::vector<MapComponent*> _portal;
 };
 
 #endif // MAPTILE_HPP

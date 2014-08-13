@@ -23,6 +23,18 @@ public:
 
 	void draw();
 
+	/**
+	 * @brief getAStarPath
+	 * @param from
+	 * @param to
+	 * @param maxlen
+	 * @return
+	 * @todo: more efficient implementation for maxlen > 0
+	 */
+	std::vector<MapComponent*> getAStarPath( MapComponent* from,
+											 MapComponent* to,
+											 const size_t maxlen=0) const;
+
 	MapComponent* getComponentAt(sf::Vector2f pos);
 
 	MapPortal* getPortal(MapPortal* veto=nullptr) const;

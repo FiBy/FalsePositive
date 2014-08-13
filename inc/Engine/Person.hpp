@@ -6,13 +6,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 
+#include "Engine/Map.hpp"
 #include "Engine/MapPortal.hpp"
 #include "Engine/MapTile.hpp"
 
 class Person : public sf::CircleShape
 {
 public:
-	Person(const MapComponent* spawn, const MapComponent* goal=nullptr);
+	Person(Map* map, MapComponent* spawn, MapComponent* goal=nullptr);
 
 	/**
 	 * @brief move
@@ -22,9 +23,13 @@ public:
 	bool move(sf::Time elapsed);
 
 private:
-	std::queue<const MapComponent*> _checkpoint;
+	std::queue<MapComponent*> _checkpoint;
 
-	const MapComponent* _goal;
+	MapComponent* _goal;
+
+	Map* _map;
+
+	MapComponent* _pos;
 
 	float _speed;
 };

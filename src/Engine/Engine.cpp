@@ -20,7 +20,9 @@ void Engine::run()
 	MapPortal* portal1 = _map->getPortal();
 	MapPortal* portal2 = _map->getPortal(portal1);
 
-	_person.push_back(new Person(portal1,portal2));
+	_person.push_back(new Person(_map,portal1,portal2));
+	portal1 = _map->getPortal(portal2);
+	_person.push_back(new Person(_map,portal2,portal1));
 
 	sf::Clock clock;
 	// run the program as long as the window is open
@@ -49,6 +51,9 @@ void Engine::run()
 			{
 				delete _person[i];
 				_person.erase(_person.begin()+i);
+				portal1 = _map->getPortal();
+				portal2 = _map->getPortal(portal1);
+				_person.push_back(new Person(_map,portal1,portal2));
 			}
 		}
 	}

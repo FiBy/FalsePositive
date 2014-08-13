@@ -9,7 +9,7 @@ class PathNode {
 public:
 	PathNode(const PathNode&);
 
-	PathNode(const MapComponent* pos, PathNode* last, const MapComponent* to);
+	PathNode(MapComponent* pos, PathNode* last, MapComponent* to);
 
 	/// set field before this one
 	/**
@@ -22,7 +22,7 @@ public:
 		return l;
 	}
 
-	inline const MapComponent* getField() const {
+	inline MapComponent* getField() const {
 		return _mymc;
 	}
 
@@ -33,7 +33,7 @@ public:
 private:
 	/** \brief field
 	 */
-	const MapComponent* _mymc;
+	MapComponent* _mymc;
 
 	/// node before this one
 	/**

@@ -25,19 +25,26 @@ sf::Vector2f MapTile::getCenter() const
 	return sf::Vector2f(sum.x/getPointCount(),sum.y/getPointCount()-8);
 }
 
-const MapComponent* MapTile::getDirectionTo(const MapComponent* goal) const
+MapComponent* MapTile::getDirectionTo(MapComponent* goal) const
 {
-	return _getAStarPath(this,goal)[0];
+	for (MapComponent* mc : _portal)
+	{
+		if (mc == goal)
+		{
+			return mc;
+		}
+	}
+	return getRandomEntry<MapComponent*>(_portal,nullptr);
 }
 
-const MapComponent* MapTile::getNeighbor(size_t n) const
+MapComponent* MapTile::getNeighbor(size_t n) const
 {
 	return _portal[n];
 }
 
-const MapComponent *MapTile::getNeighbor(const MapComponent* veto) const
+MapComponent *MapTile::getNeighbor(MapComponent* veto) const
 {
-	return getRandomEntry<const MapComponent*>(_portal,veto);
+	return getRandomEntry<MapComponent*>(_portal,veto);
 }
 
 bool MapTile::setNeighbor(MapTile *tile)

@@ -1,8 +1,8 @@
 #include "Engine/PathNode.hpp"
 
-PathNode::PathNode(	const MapComponent* pos,
+PathNode::PathNode(	MapComponent* pos,
 					PathNode* last,
-					const MapComponent* to ) :
+					MapComponent* to ) :
 	_mymc(pos),
 	l(last)
 {
