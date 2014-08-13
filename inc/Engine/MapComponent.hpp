@@ -1,13 +1,9 @@
 #ifndef MAPCOMPONENT_HPP
 #define MAPCOMPONENT_HPP
 
-class MapComponent;
-
 #include <list>
 #include <SFML/System/Vector2.hpp>
 #include <vector>
-
-#include "PathNode.hpp"
 
 class MapComponent
 {

@@ -1,7 +1,9 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
+#include <algorithm>
 #include <array>
+#include <cstddef>
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -12,6 +14,7 @@
 #include "Engine/MapTile.hpp"
 #include "Engine/Resources.hpp"
 #include "main.hpp"
+#include "PathNode.hpp"
 
 class Map
 {
