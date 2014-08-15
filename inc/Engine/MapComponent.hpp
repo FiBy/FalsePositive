@@ -12,9 +12,9 @@ public:
 
 	virtual MapComponent* getDirectionTo(MapComponent* goal) const =0;
 
-	virtual MapComponent* getNeighbor(size_t) const =0;
+	virtual MapComponent* getNeighbor(unsigned int) const =0;
 
-	virtual size_t getNNeighbors() const =0;
+	virtual unsigned int getNNeighbors() const =0;
 };
 
 #endif // MAPCOMPONENT_HPP

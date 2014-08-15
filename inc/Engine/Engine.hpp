@@ -1,6 +1,7 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
+#include <random>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window.hpp>
 #include <vector>

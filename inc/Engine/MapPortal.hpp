@@ -17,10 +17,10 @@ public:
 	MapComponent* getDirectionTo(MapComponent*) const
 		{ return _neighbor; }
 
-	MapComponent* getNeighbor(size_t) const
+	MapComponent* getNeighbor(unsigned int) const
 		{ return _neighbor; }
 
-	size_t getNNeighbors() const
+	unsigned int getNNeighbors() const
 		{ return 1; }
 
 private:

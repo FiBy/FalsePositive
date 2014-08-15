@@ -17,12 +17,20 @@ Engine::~Engine()
 
 void Engine::run()
 {
-	MapPortal* portal1 = _map->getPortal();
-	MapPortal* portal2 = _map->getPortal(portal1);
+	std::random_device rdev{};
+	static std::default_random_engine e{rdev()};
+	std::normal_distribution<float> r(0,25);
+	float speed;
 
-	_person.push_back(new Person(_map,portal1,portal2));
-	portal1 = _map->getPortal(portal2);
-	_person.push_back(new Person(_map,portal2,portal1));
+	MapPortal* portal1;
+	MapPortal* portal2;
+
+	for (MapPortal* p : *(_map->getPortals()))
+	{
+		portal2 = _map->getPortal(p);
+		speed = 75 + std::abs(r(e));
+		_person.push_back(new Person(_map,p,&_person,portal2,speed));
+	}
 
 	sf::Clock clock;
 	// run the program as long as the window is open
@@ -47,13 +55,23 @@ void Engine::run()
 		sf::Time elapsed = clock.restart();
 		for (unsigned int i=0; i<_person.size(); i++)
 		{
-			if (_person[i]->move(elapsed))
+			switch (_person[i]->move(elapsed))
 			{
+			case Person::movement::arrived:
+				;
+				break;
+			case Person::movement::moved:
+				break;
+			case Person::movement::none:
 				delete _person[i];
 				_person.erase(_person.begin()+i);
 				portal1 = _map->getPortal();
 				portal2 = _map->getPortal(portal1);
-				_person.push_back(new Person(_map,portal1,portal2));
+				speed = 75 + std::abs(r(e));
+				_person.push_back(new Person(_map,portal1,&_person,portal2,speed));
+				break;
+			default:
+				break;
 			}
 		}
 	}

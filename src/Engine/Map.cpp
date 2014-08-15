@@ -145,7 +145,7 @@ bool Map::loadFromFile(const std::string& filename)
 
 std::vector<MapComponent*> Map::getAStarPath(MapComponent* from,
 											 MapComponent* to,
-											 const size_t maxlen) const
+											 const unsigned int maxlen) const
 {
 	// open list
 	std::list<PathNode*> ol;

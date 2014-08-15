@@ -22,7 +22,7 @@ public:
 	 */
 	MapComponent* getDirectionTo(MapComponent* goal) const;
 
-	MapComponent *getNeighbor(size_t n) const;
+	MapComponent *getNeighbor(unsigned int n) const;
 
 	/**
 	 * @brief getNeighbor
@@ -31,7 +31,7 @@ public:
 	 */
 	MapComponent* getNeighbor(MapComponent* veto=nullptr) const;
 
-	size_t getNNeighbors() const
+	unsigned int getNNeighbors() const
 		{ return _portal.size(); }
 
 	/**

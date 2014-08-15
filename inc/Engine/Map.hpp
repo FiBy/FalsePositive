@@ -3,15 +3,18 @@
 
 #include <algorithm>
 #include <array>
-#include <cstddef>
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <sstream>
 #include <vector>
 
+// forward declaration
+class Map;
+
 #include "Engine/MapPortal.hpp"
 #include "Engine/MapTile.hpp"
+#include "Engine/Person.hpp"
 #include "Engine/Resources.hpp"
 #include "main.hpp"
 #include "PathNode.hpp"
@@ -36,11 +39,14 @@ public:
 	 */
 	std::vector<MapComponent*> getAStarPath( MapComponent* from,
 											 MapComponent* to,
-											 const size_t maxlen=0) const;
+											 const unsigned int maxlen=0) const;
 
 	MapComponent* getComponentAt(sf::Vector2f pos);
 
 	MapPortal* getPortal(MapPortal* veto=nullptr) const;
+
+	const std::vector<MapPortal*>* getPortals() const
+		{ return &_portal; }
 
 	/**
 	 * @brief loadFromFile

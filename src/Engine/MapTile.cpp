@@ -37,7 +37,7 @@ MapComponent* MapTile::getDirectionTo(MapComponent* goal) const
 	return getRandomEntry<MapComponent*>(_portal,nullptr);
 }
 
-MapComponent* MapTile::getNeighbor(size_t n) const
+MapComponent* MapTile::getNeighbor(unsigned int n) const
 {
 	return _portal[n];
 }

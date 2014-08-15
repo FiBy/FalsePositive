@@ -12,6 +12,8 @@
  * @return a random item of the vector (but not elements with value of veto)
  * @todo allow list of vetos
  */
+#include <SFML/System/Vector2.hpp>
+
 template<class vtype>
 vtype getRandomEntry(const std::vector<vtype>& vec, const vtype veto)
 {
