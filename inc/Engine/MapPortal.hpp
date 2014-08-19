@@ -17,6 +17,9 @@ public:
 	MapComponent* getDirectionTo(MapComponent*) const
 		{ return _neighbor; }
 
+	sf::Vector2f getForce(sf::Vector2f pos) const
+		{ return sf::Vector2f(); }
+
 	MapComponent* getNeighbor(unsigned int) const
 		{ return _neighbor; }
 

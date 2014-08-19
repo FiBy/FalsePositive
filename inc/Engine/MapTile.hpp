@@ -1,11 +1,13 @@
 #ifndef MAPTILE_HPP
 #define MAPTILE_HPP
 
+#include <array>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
 
 #include "Engine/MapComponent.hpp"
+#include "Engine/SFMLext.hpp"
 #include "main.hpp"
 
 class MapTile : public MapComponent, public sf::ConvexShape
@@ -22,7 +24,9 @@ public:
 	 */
 	MapComponent* getDirectionTo(MapComponent* goal) const;
 
-	MapComponent *getNeighbor(unsigned int n) const;
+	sf::Vector2f getForce(sf::Vector2f pos) const;
+
+	MapComponent* getNeighbor(unsigned int n) const;
 
 	/**
 	 * @brief getNeighbor
@@ -33,6 +37,9 @@ public:
 
 	unsigned int getNNeighbors() const
 		{ return _portal.size(); }
+
+	std::vector<std::array<sf::Vector2f,2>> getNormals() const
+		{ return _normal; }
 
 	/**
 	 * @brief setNeighbor
@@ -48,8 +55,12 @@ public:
 	 */
 	void setNeighbor(MapComponent* component, unsigned int n);
 
+	void setNormals();
+
 private:
 	std::vector<MapComponent*> _portal;
+
+	std::vector<std::array<sf::Vector2f,2>> _normal;
 };
 
 #endif // MAPTILE_HPP

@@ -37,6 +37,17 @@ MapComponent* MapTile::getDirectionTo(MapComponent* goal) const
 	return getRandomEntry<MapComponent*>(_portal,nullptr);
 }
 
+sf::Vector2f MapTile::getForce(sf::Vector2f pos) const
+{
+	sf::Vector2f rv;
+	for (std::array<sf::Vector2f,2> n : _normal)
+	{
+		sf::Vector2f fv = sfe::scalar(pos-n[1],n[0])*n[0];
+		rv += float(pow(sfe::abs(fv),-8))*fv;
+	}
+	return rv;
+}
+
 MapComponent* MapTile::getNeighbor(unsigned int n) const
 {
 	return _portal[n];
@@ -66,4 +77,28 @@ bool MapTile::setNeighbor(MapTile *tile)
 void MapTile::setNeighbor(MapComponent* component, unsigned int n)
 {
 	_portal[n] = component;
+}
+
+void MapTile::setNormals()
+{
+	for (unsigned int i=0; i<_portal.size(); i++)
+	{
+		if (_portal[i] == nullptr)
+		{
+			sf::Vector2f p1 = getPoint(i);
+			sf::Vector2f p2 = getPoint((i+1)%getPointCount());
+			sf::Vector2f d = p1 - p2;
+			sf::Vector2f n;
+			n.x = d.y;
+			n.y = -d.x;
+			if (n.x*(p1-getCenter()).x+n.y*(p1-getCenter()).y > 0)
+			{
+				n = -1.0f*n;
+			}
+			float len_n = sqrt(pow(n.x,2)+pow(n.y,2));
+			n.x /= len_n;
+			n.y /= len_n;
+			_normal.push_back(std::array<sf::Vector2f,2>{n,0.5f*(p1+p2)});
+		}
+	}
 }

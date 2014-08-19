@@ -24,6 +24,15 @@ void Map::draw()
 	for(MapTile* tile : _tile)
 	{
 		_rendertarget->draw(*tile);
+		#ifdef DEBUG
+		for (auto n : tile->getNormals())
+		{
+			sf::VertexArray line_array( sf::Lines, 2 );
+			line_array[0] = sf::Vertex( n[1], sf::Color::Red );
+			line_array[1] = sf::Vertex( n[1]+50.0f*n[0], sf::Color::Blue );
+			_rendertarget->draw(line_array);
+		}
+		#endif
 	}
 	#ifdef DEBUG
 	for(MapPortal* portal : _portal)
@@ -34,7 +43,7 @@ void Map::draw()
 	{
 		_rendertarget->draw(text);
 	}
-#endif // DEBUG
+	#endif // DEBUG
 }
 
 MapPortal* Map::getPortal(MapPortal* veto) const
@@ -139,6 +148,10 @@ bool Map::loadFromFile(const std::string& filename)
 			_portal.push_back(new MapPortal(edges,_tile[p[0]-1]));
 			_tile[p[0]-1]->setNeighbor(_portal.back(),p[2]-1);
 		}
+	}
+	for (MapTile* t : _tile)
+	{
+		t->setNormals();
 	}
 	return true;
 }

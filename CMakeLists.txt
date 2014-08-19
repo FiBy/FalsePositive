@@ -12,6 +12,7 @@ set(SRC_LIST
 	src/Engine/PathNode.cpp
 	src/Engine/Person.cpp
 	src/Engine/Resources.cpp
+	src/Engine/SFMLext.cpp
 )
 set(INC_LIST
     inc/main.hpp
@@ -23,6 +24,7 @@ set(INC_LIST
 	inc/Engine/PathNode.hpp
 	inc/Engine/Person.hpp
 	inc/Engine/Resources.hpp
+	inc/Engine/SFMLext.hpp
 )
 add_executable(${PROJECT_NAME} ${SRC_LIST} ${INC_LIST})
 
