@@ -17,6 +17,8 @@ public:
 	virtual MapComponent* getNeighbor(unsigned int) const =0;
 
 	virtual unsigned int getNNeighbors() const =0;
+
+	virtual bool operator==(const sf::Vector2f pos) const =0;
 };
 
 #endif // MAPCOMPONENT_HPP

@@ -26,8 +26,17 @@ public:
 	unsigned int getNNeighbors() const
 		{ return 1; }
 
+	std::array<sf::Vector2f,2> getNormal() const
+		{ return _normal; }
+
+	bool operator==(const sf::Vector2f pos) const;
+
+	void setNormal();
+
 private:
 	MapTile* _neighbor;
+
+	std::array<sf::Vector2f,2> _normal;
 };
 
 #endif // MAPPORTAL_HPP

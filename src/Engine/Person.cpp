@@ -11,6 +11,7 @@ Person::Person(Map* map, MapComponent* spawn,
 {
 	setRadius(_radius);
 	setPosition(spawn->getCenter()-sf::Vector2f(getRadius(),getRadius()));
+	_pos = getPosition() + sf::Vector2f(getRadius(),getRadius());
 	setFillColor(sf::Color::Red);
 
 	_checkpoint.push(spawn->getDirectionTo(goal));
@@ -23,21 +24,9 @@ Person::movement Person::move(sf::Time elapsed)
 		return movement::none;
 	}
 	movement mv = movement::moved;
-	sf::Vector2f direction	= _checkpoint.front()->getCenter()
-							- getPosition()
-							- sf::Vector2f(getRadius(),getRadius());
+	sf::Vector2f direction	= _checkpoint.back()->getCenter() - _pos;
 	float dist = _len(direction);
 	float step = elapsed.asSeconds()*_speed;
-	if (step > dist)
-	{
-		_ct = _checkpoint.front();
-		if ( _ct != _goal)
-		{
-			_checkpoint.push(_map->getAStarPath(_ct,_goal,1)[0]);
-		}
-		_checkpoint.pop();
-		mv = movement::arrived;
-	}
 	direction.x*=step/dist;
 	direction.y*=step/dist;
 	for (Person* p : *_allpersons)
@@ -59,5 +48,16 @@ Person::movement Person::move(sf::Time elapsed)
 		}
 	}
 	sf::CircleShape::move(direction);
+	_pos = getPosition() + sf::Vector2f(getRadius(),getRadius());
+	if (*_checkpoint.front() == _pos)
+	{
+		_ct = _checkpoint.front();
+		if ( _ct != _goal)
+		{
+			_checkpoint.push(_map->getAStarPath(_ct,_goal).front());
+		}
+		_checkpoint.pop();
+		mv = movement::arrived;
+	}
 	return mv;
 }

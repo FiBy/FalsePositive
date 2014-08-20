@@ -28,8 +28,8 @@ void Map::draw()
 		for (auto n : tile->getNormals())
 		{
 			sf::VertexArray line_array( sf::Lines, 2 );
-			line_array[0] = sf::Vertex( n[1], sf::Color::Red );
-			line_array[1] = sf::Vertex( n[1]+50.0f*n[0], sf::Color::Blue );
+			line_array[0] = sf::Vertex( n[1], sf::Color::Yellow );
+			line_array[1] = sf::Vertex( n[1]+20.0f*n[0],sf::Color::Transparent);
 			_rendertarget->draw(line_array);
 		}
 		#endif
@@ -38,6 +38,11 @@ void Map::draw()
 	for(MapPortal* portal : _portal)
 	{
 		_rendertarget->draw(*portal);
+		std::array<sf::Vector2f,2> n = portal->getNormal();
+		sf::VertexArray line_array( sf::Lines, 2 );
+		line_array[0] = sf::Vertex( n[1], sf::Color::Transparent );
+		line_array[1] = sf::Vertex( n[1]+25.0f*n[0], sf::Color::Blue );
+		_rendertarget->draw(line_array);
 	}
 	for(sf::Text text : _enumerations)
 	{
@@ -152,6 +157,10 @@ bool Map::loadFromFile(const std::string& filename)
 	for (MapTile* t : _tile)
 	{
 		t->setNormals();
+	}
+	for (MapPortal* p : _portal)
+	{
+		p->setNormal();
 	}
 	return true;
 }

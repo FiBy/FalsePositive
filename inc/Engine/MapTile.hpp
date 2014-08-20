@@ -57,6 +57,8 @@ public:
 
 	void setNormals();
 
+	bool operator==(const sf::Vector2f pos) const;
+
 private:
 	std::vector<MapComponent*> _portal;
 

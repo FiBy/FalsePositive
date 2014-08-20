@@ -51,6 +51,8 @@ private:
 
 	Map* _map;
 
+	sf::Vector2f _pos;
+
 	static constexpr float _radius = 10.0f;
 
 	static constexpr float _rotationangle = 0.75f;
