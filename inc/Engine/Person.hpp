@@ -36,24 +36,23 @@ public:
 	movement move(sf::Time elapsed);
 
 private:
+	float _acceleration;
+
 	std::vector<Person*>* _allpersons;
 
 	std::queue<MapComponent*> _checkpoint;
 
 	MapComponent* _ct;
 
-	MapComponent* _goal;
+	sf::Vector2f _direction;
 
-	inline float _len(sf::Vector2f vec)
-	{
-		return sqrt(std::pow(vec.x,2)+(std::pow(vec.y,2)));
-	}
+	MapComponent* _goal;
 
 	Map* _map;
 
 	sf::Vector2f _pos;
 
-	static constexpr float _radius = 10.0f;
+	static constexpr float _radius = 7.5f;
 
 	static constexpr float _rotationangle = 0.75f;
 

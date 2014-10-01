@@ -10,9 +10,14 @@
 namespace sfe
 {
 
-float abs(const sf::Vector2f v);
+const float abs(const sf::Vector2f v);
 
-float scalar(const sf::Vector2f v1, const sf::Vector2f v2);
+const float scalar(const sf::Vector2f v1, const sf::Vector2f v2);
+
+const float lenght(const sf::Vector2f vec);
+
+std::array<sf::Vector2f,2> normal(const sf::Vector2f p1,
+								  const sf::Vector2f p2);
 
 /**
  * @brief normal
@@ -25,6 +30,6 @@ float scalar(const sf::Vector2f v1, const sf::Vector2f v2);
  */
 std::array<sf::Vector2f,2> normal(const sf::Vector2f p1,
 								  const sf::Vector2f p2,
-								  const sf::Vector2f sign);
+								  const sf::Vector2f direction);
 }
 #endif // SFMLEXT_HPP

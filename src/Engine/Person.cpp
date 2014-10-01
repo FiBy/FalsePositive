@@ -3,6 +3,7 @@
 Person::Person(Map* map, MapComponent* spawn,
 			   std::vector<Person*>* all,
 			   MapComponent* goal, float speed) :
+	_acceleration(2048.0f),
 	_allpersons(all),
 	_ct(spawn),
 	_goal(goal),
@@ -15,6 +16,8 @@ Person::Person(Map* map, MapComponent* spawn,
 	setFillColor(sf::Color::Red);
 
 	_checkpoint.push(spawn->getDirectionTo(goal));
+	_direction = _checkpoint.back()->getCenter() - _pos;
+	_direction = _direction/sfe::lenght(_direction)*_speed;
 }
 
 Person::movement Person::move(sf::Time elapsed)
@@ -23,34 +26,69 @@ Person::movement Person::move(sf::Time elapsed)
 	{
 		return movement::none;
 	}
+	float acceleration = _acceleration*elapsed.asSeconds();
 	movement mv = movement::moved;
-	sf::Vector2f direction	= _checkpoint.back()->getCenter() - _pos;
-	float dist = _len(direction);
-	float step = elapsed.asSeconds()*_speed;
-	direction.x*=step/dist;
-	direction.y*=step/dist;
+	sf::Vector2f drag	= _checkpoint.back()->getCenter() - _pos;
+	float dist = sfe::lenght(drag);
+	drag = drag/dist*acceleration;
 	for (Person* p : *_allpersons)
 	{
 		if (p != this)
 		{
-			dist = _len(getPosition()+direction - p->getPosition());
-			if ( dist < 4*_radius)
+			dist = sfe::lenght(getPosition() - p->getPosition());
+			if ( dist < 8*_radius )
 			{
-				sf::Vector2f rotdirect;
-				rotdirect.x = direction.x*std::cos(_rotationangle)
-							- direction.y*std::sin(_rotationangle);
-				rotdirect.y = direction.x*std::sin(_rotationangle)
-							+ direction.y*std::cos(_rotationangle);
-				direction = rotdirect;
-				sf::CircleShape::move(direction);
-				return mv;
+				if (sfe::scalar(_direction,p->_direction) < 0)
+				{
+					drag = 0.25f*drag;
+					sf::Vector2f dodge;
+					dodge = sfe::normal(getPosition(),p->getPosition())[0];
+					dodge = dodge/sfe::lenght(dodge)*0.75f
+							/powf((dist-2*_radius)/_radius,2)*acceleration;
+					drag += dodge;
+				}
+				else if (dist < 4*_radius)
+				{
+					drag = 0.25f*drag;
+					sf::Vector2f dodge;
+					dodge =  _pos - p->_pos;
+					dodge = dodge/sfe::lenght(dodge)*0.75f
+							/powf((dist-2*_radius)/_radius,2)*acceleration;
+					drag += dodge;
+				}
 			}
 		}
 	}
-	sf::CircleShape::move(direction);
+	std::pair<bool,sf::Vector2f> walldodge = _ct->getForce(_pos,_radius);
+	if (walldodge.first)
+	{
+		_direction = sf::Vector2f(0,0);
+		drag = walldodge.second*acceleration;
+	}
+	else
+	{
+		drag += walldodge.second*acceleration;
+	}
+	_direction += drag;
+	if (sfe::lenght(_direction) > _speed)
+	{
+		_direction = _direction/sfe::lenght(_direction)*_speed;
+	}
+	sf::CircleShape::move(_direction*elapsed.asSeconds());
 	_pos = getPosition() + sf::Vector2f(getRadius(),getRadius());
+
 	if (*_checkpoint.front() == _pos)
 	{
+		#ifdef DEBUG
+		if (getFillColor() == sf::Color::Red)
+		{
+			setFillColor(sf::Color::Yellow);
+		}
+		else
+		{
+			setFillColor(sf::Color::Red);
+		}
+		#endif
 		_ct = _checkpoint.front();
 		if ( _ct != _goal)
 		{
@@ -59,5 +97,24 @@ Person::movement Person::move(sf::Time elapsed)
 		_checkpoint.pop();
 		mv = movement::arrived;
 	}
+	#ifdef DEBUG
+	if (!(*_ct == _pos))
+	{
+		for (unsigned int i=0; i < _ct->getNNeighbors(); i++)
+		{
+			 if (*_ct->getNeighbor(i) == _pos)
+			 {
+				 _ct = _ct->getNeighbor(i);
+				 setFillColor(sf::Color::Blue);
+				 if ( _ct != _goal)
+				 {
+					 _checkpoint.push(_map->getAStarPath(_ct,_goal).front());
+				 }
+				 _checkpoint.pop();
+			 }
+			 return mv;
+		}
+	}
+	#endif
 	return mv;
 }

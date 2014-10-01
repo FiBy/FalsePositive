@@ -3,6 +3,7 @@
 
 #include <list>
 #include <SFML/System/Vector2.hpp>
+#include <utility>
 #include <vector>
 
 class MapComponent
@@ -12,7 +13,8 @@ public:
 
 	virtual MapComponent* getDirectionTo(MapComponent* goal) const =0;
 
-	virtual sf::Vector2f getForce(sf::Vector2f pos) const =0;
+	virtual std::pair<bool,sf::Vector2f>
+		getForce(sf::Vector2f pos,float comfortzone) const =0;
 
 	virtual MapComponent* getNeighbor(unsigned int) const =0;
 

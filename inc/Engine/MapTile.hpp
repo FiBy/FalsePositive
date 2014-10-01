@@ -24,7 +24,8 @@ public:
 	 */
 	MapComponent* getDirectionTo(MapComponent* goal) const;
 
-	sf::Vector2f getForce(sf::Vector2f pos) const;
+	std::pair<bool,sf::Vector2f> getForce(const sf::Vector2f pos,
+										  const float comfortzone ) const;
 
 	MapComponent* getNeighbor(unsigned int n) const;
 
@@ -62,6 +63,12 @@ public:
 private:
 	std::vector<MapComponent*> _portal;
 
+	/**
+	 * @brief _normal
+	 *
+	 * _normal[i][0] stores perpendicular vector
+	 * _normal[i][1] stores center of side
+	 */
 	std::vector<std::array<sf::Vector2f,2>> _normal;
 };
 

@@ -37,13 +37,34 @@ MapComponent* MapTile::getDirectionTo(MapComponent* goal) const
 	return getRandomEntry<MapComponent*>(_portal,nullptr);
 }
 
-sf::Vector2f MapTile::getForce(sf::Vector2f pos) const
+std::pair<bool, sf::Vector2f> MapTile::getForce(const sf::Vector2f pos,
+												const float comfortzone) const
 {
-	sf::Vector2f rv;
-	for (std::array<sf::Vector2f,2> n : _normal)
+	std::pair<bool,sf::Vector2f> rv(false,sf::Vector2f());
+	for (unsigned int n=0; n<_normal.size(); n++)
 	{
-		sf::Vector2f fv = sfe::scalar(pos-n[1],n[0])*n[0];
-		rv += float(pow(sfe::abs(fv),-8))*fv;
+		if (_portal[n] == nullptr) {
+			float dist = sfe::scalar(pos-_normal[n][1],_normal[n][0]);
+			if (dist < 2.0f*comfortzone)
+			{
+				if (dist > comfortzone)
+				{
+					rv.second += _normal[n][0]*powf(fabsf(dist-comfortzone)
+											 /(2*comfortzone),-4.0f);
+				}
+				else
+				{
+					rv.first = true;
+					rv.second += _normal[n][0];
+				}
+			}
+			else
+			{
+				rv.second += _normal[n][0]/(fabsf(dist-comfortzone)
+												/(2*comfortzone));
+			}
+
+		}
 	}
 	return rv;
 }
@@ -83,16 +104,21 @@ void MapTile::setNormals()
 {
 	for (unsigned int i=0; i<_portal.size(); i++)
 	{
-		if (_portal[i] == nullptr)
-		{
-			_normal.push_back(sfe::normal(getPoint(i),
-										  getPoint((i+1)%getPointCount()),
-										  getCenter()));
-		}
+		_normal.push_back(sfe::normal(getPoint(i),
+									  getPoint((i+1)%getPointCount()),
+									  getCenter()));
 	}
 }
 
 bool MapTile::operator==(const sf::Vector2f pos) const
 {
-	return getGlobalBounds().contains(pos);
+	bool contained = true;
+	for (auto n : _normal)
+	{
+		if (sfe::scalar(n[1]-pos,n[0]) > 0)
+		{
+			contained = false;
+		}
+	}
+	return contained;
 }
