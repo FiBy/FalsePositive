@@ -2,6 +2,7 @@
 #define MAPTILE_HPP
 
 #include <array>
+#include <float.h>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -24,6 +25,14 @@ public:
 	 */
 	MapComponent* getDirectionTo(MapComponent* goal) const;
 
+	/**
+	 * @brief getForce
+	 * @param pos
+	 * @param comfortzone
+	 * @return
+	 *
+	 * @todo dependence on direction of movement (to stay right) and maybe speed
+	 */
 	std::pair<bool,sf::Vector2f> getForce(const sf::Vector2f pos,
 										  const float comfortzone ) const;
 
@@ -59,6 +68,9 @@ public:
 	void setNormals();
 
 	bool operator==(const sf::Vector2f pos) const;
+
+	inline bool operator!=(const sf::Vector2f pos) const
+		{ return !operator==(pos); }
 
 private:
 	std::vector<MapComponent*> _portal;

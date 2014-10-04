@@ -59,15 +59,16 @@ Person::movement Person::move(sf::Time elapsed)
 			}
 		}
 	}
-	std::pair<bool,sf::Vector2f> walldodge = _ct->getForce(_pos,_radius);
-	if (walldodge.first)
+	std::pair<bool,sf::Vector2f> walldodge_ct = _ct->getForce(_pos,_radius);
+	if (walldodge_ct.first)
 	{
 		_direction = sf::Vector2f(0,0);
-		drag = walldodge.second*acceleration;
+		drag = walldodge_ct.second*acceleration;
 	}
 	else
 	{
-		drag += walldodge.second*acceleration;
+		drag += walldodge_ct.second*acceleration;
+		drag += _checkpoint.front()->getForce(_pos,_radius).second*acceleration;
 	}
 	_direction += drag;
 	if (sfe::lenght(_direction) > _speed)
@@ -98,22 +99,9 @@ Person::movement Person::move(sf::Time elapsed)
 		mv = movement::arrived;
 	}
 	#ifdef DEBUG
-	if (!(*_ct == _pos))
+	if (*_ct != _pos)
 	{
-		for (unsigned int i=0; i < _ct->getNNeighbors(); i++)
-		{
-			 if (*_ct->getNeighbor(i) == _pos)
-			 {
-				 _ct = _ct->getNeighbor(i);
-				 setFillColor(sf::Color::Blue);
-				 if ( _ct != _goal)
-				 {
-					 _checkpoint.push(_map->getAStarPath(_ct,_goal).front());
-				 }
-				 _checkpoint.pop();
-			 }
-			 return mv;
-		}
+		setFillColor(sf::Color::Blue);
 	}
 	#endif
 	return mv;

@@ -45,6 +45,22 @@ std::pair<bool, sf::Vector2f> MapTile::getForce(const sf::Vector2f pos,
 	{
 		if (_portal[n] == nullptr) {
 			float dist = sfe::scalar(pos-_normal[n][1],_normal[n][0]);
+			if (operator!=(pos))
+			{
+				float nearestedge = FLT_MAX;
+				for (unsigned int e=0; e<getPointCount(); e++)
+				{
+					float edgedist = sfe::lenght(pos-getPoint(e));
+					if (edgedist < nearestedge)
+					{
+						nearestedge = edgedist;
+					}
+				}
+				if (nearestedge > dist)
+				{
+					dist = nearestedge;
+				}
+			}
 			if (dist < 2.0f*comfortzone)
 			{
 				if (dist > comfortzone)

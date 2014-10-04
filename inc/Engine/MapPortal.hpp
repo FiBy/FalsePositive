@@ -32,6 +32,9 @@ public:
 
 	bool operator==(const sf::Vector2f pos) const;
 
+	inline bool operator!=(const sf::Vector2f pos) const
+		{ return !operator==(pos); }
+
 	void setNormal();
 
 private:
