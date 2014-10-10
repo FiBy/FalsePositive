@@ -17,8 +17,10 @@ public:
 	MapComponent* getDirectionTo(MapComponent*) const
 		{ return _neighbor; }
 
-	std::pair<bool,sf::Vector2f>
-		getForce(sf::Vector2f pos,float comfortzone) const
+	std::pair<bool,sf::Vector2f> getForce(	sf::Vector2f position,
+											sf::Vector2f direction,
+											MapComponent* target,
+											float size) const
 		{ return std::pair<bool,sf::Vector2f>(false,sf::Vector2f()); }
 
 	MapComponent* getNeighbor(unsigned int) const

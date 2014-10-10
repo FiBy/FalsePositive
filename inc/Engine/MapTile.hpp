@@ -33,8 +33,10 @@ public:
 	 *
 	 * @todo dependence on direction of movement (to stay right) and maybe speed
 	 */
-	std::pair<bool,sf::Vector2f> getForce(const sf::Vector2f pos,
-										  const float comfortzone ) const;
+	std::pair<bool,sf::Vector2f> getForce(	const sf::Vector2f position,
+											const sf::Vector2f direction,
+											MapComponent* target,
+											const float size) const;
 
 	MapComponent* getNeighbor(unsigned int n) const;
 

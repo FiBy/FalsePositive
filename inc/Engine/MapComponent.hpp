@@ -13,8 +13,10 @@ public:
 
 	virtual MapComponent* getDirectionTo(MapComponent* goal) const =0;
 
-	virtual std::pair<bool,sf::Vector2f>
-		getForce(sf::Vector2f pos,float comfortzone) const =0;
+	virtual std::pair<bool,sf::Vector2f> getForce(	sf::Vector2f position,
+													sf::Vector2f direction,
+													MapComponent* target,
+													float size) const =0;
 
 	virtual MapComponent* getNeighbor(unsigned int) const =0;
 

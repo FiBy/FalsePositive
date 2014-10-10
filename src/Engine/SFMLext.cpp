@@ -1,17 +1,11 @@
 #include "Engine/SFMLext.hpp"
 
-
-const float sfe::abs(const sf::Vector2f v)
-{
-	return sqrt(v.x*v.x+v.y*v.y);
-}
-
 const float sfe::scalar(const sf::Vector2f v1, const sf::Vector2f v2)
 {
 	return v1.x*v2.x+v1.y*v2.y;
 }
 
-const float sfe::lenght(const sf::Vector2f vec)
+const float sfe::length(const sf::Vector2f vec)
 {
 	return sqrt(std::pow(vec.x,2)+(std::pow(vec.y,2)));
 }

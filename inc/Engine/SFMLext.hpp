@@ -10,11 +10,9 @@
 namespace sfe
 {
 
-const float abs(const sf::Vector2f v);
-
 const float scalar(const sf::Vector2f v1, const sf::Vector2f v2);
 
-const float lenght(const sf::Vector2f vec);
+const float length(const sf::Vector2f vec);
 
 std::array<sf::Vector2f,2> normal(const sf::Vector2f p1,
 								  const sf::Vector2f p2);

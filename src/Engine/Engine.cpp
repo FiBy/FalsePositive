@@ -33,6 +33,8 @@ void Engine::run()
 	}
 
 	sf::Clock clock;
+	sf::Clock personspawntime;
+	personspawntime.restart();
 	// run the program as long as the window is open
 	while (_window->isOpen())
 	{
@@ -52,23 +54,27 @@ void Engine::run()
 		}
 		_window->display();
 
+		if (personspawntime.getElapsedTime().asSeconds() > 0.5f)
+		{
+			personspawntime.restart();
+			portal1 = _map->getPortal();
+			portal2 = _map->getPortal(portal1);
+			speed = 75 + std::abs(r(e));
+			_person.push_back(new Person(_map,portal1,&_person,portal2,speed));
+		}
+
 		sf::Time elapsed = clock.restart();
 		for (unsigned int i=0; i<_person.size(); i++)
 		{
 			switch (_person[i]->move(elapsed))
 			{
 			case Person::movement::arrived:
-				;
 				break;
 			case Person::movement::moved:
 				break;
 			case Person::movement::none:
 				delete _person[i];
 				_person.erase(_person.begin()+i);
-				portal1 = _map->getPortal();
-				portal2 = _map->getPortal(portal1);
-				speed = 75 + std::abs(r(e));
-				_person.push_back(new Person(_map,portal1,&_person,portal2,speed));
 				break;
 			default:
 				break;
