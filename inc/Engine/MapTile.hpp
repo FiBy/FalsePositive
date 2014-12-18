@@ -69,12 +69,18 @@ public:
 
 	void setNormals();
 
+	bool toggleAccessible();
+
+	bool toggleBreaking();
+
 	bool operator==(const sf::Vector2f pos) const;
 
 	inline bool operator!=(const sf::Vector2f pos) const
 		{ return !operator==(pos); }
 
 private:
+	bool _breaking;
+
 	std::vector<MapComponent*> _portal;
 
 	/**

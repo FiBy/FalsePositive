@@ -1,6 +1,7 @@
 #include "Engine/MapTile.hpp"
 
-MapTile::MapTile(std::vector<sf::Vector2f> edges)
+MapTile::MapTile(std::vector<sf::Vector2f> edges) :
+	_breaking(false)
 {
     setPointCount(edges.size());
 	_portal.resize(edges.size(),nullptr);
@@ -43,61 +44,69 @@ std::pair<bool, sf::Vector2f> MapTile::getForce(const sf::Vector2f position,
 												const float size) const
 {
 	std::pair<bool,sf::Vector2f> rv(false,sf::Vector2f());
-	for (unsigned int n=0; n<_normal.size(); n++)
-	{
-		if (_portal[n] != target) {
-			float dist = sfe::scalar(position-_normal[n][1],_normal[n][0]);
-			if (operator!=(position)) // outside of the tile, correct distance
-			{
-				float nearestedge = FLT_MAX;
-				for (unsigned int e=0; e<getPointCount(); e++)
-				{
-					float edgedist = sfe::length(position-getPoint(e));
-					if (edgedist < nearestedge)
-					{
-						nearestedge = edgedist;
-					}
-				}
-				if (nearestedge > dist)
-				{
-					dist = nearestedge;
-				}
-			}
-			if (dist < 2.0f*size) // near the boundary
-			{
-				if (dist > size)
-				{
-					rv.second += _normal[n][0]*powf(fabsf(dist-size)
-											 /(2*size),-4.0f);
-				}
-				else // hit the boundary
-				{
-					if (sfe::scalar(_normal[n][0],direction) < 0.0f)
-					{
-						rv.first = true;
-						rv.second += _normal[n][0];
-					}
-				}
-			}
-			else // away from the boundary
-			{
-				float push;
-				sf::Vector2f dir;
-				dir.x = direction.y;
-				dir.y = -direction.x;
-				if (sfe::scalar(dir,_normal[n][0]) > 0.0f)
-				{
-					push = 2.0f;
-				}
-				else
-				{
-					push = 4.0f;
-				}
-				rv.second += _normal[n][0]/(fabsf(dist-size)
-												/(push*size));
-			}
 
+	if (!_breaking) {
+		for (unsigned int n=0; n<_normal.size(); n++)
+		{
+			if (_portal[n] != target || !(target->accessible())) {
+				float dist = sfe::scalar(position-_normal[n][1],_normal[n][0]);
+				if (operator!=(position)) // outside of the tile, correct distance
+				{
+					float nearestedge = FLT_MAX;
+					for (unsigned int e=0; e<getPointCount(); e++)
+					{
+						float edgedist = sfe::length(position-getPoint(e));
+						if (edgedist < nearestedge)
+						{
+							nearestedge = edgedist;
+						}
+					}
+					if (nearestedge > dist)
+					{
+						dist = nearestedge;
+					}
+				}
+				if (dist < 2.0f*size) // near the boundary
+				{
+					if (dist > size)
+					{
+						rv.second += _normal[n][0]*powf(fabsf(dist-size)
+												 /(2*size),-4.0f);
+					}
+					else // hit the boundary
+					{
+						if (sfe::scalar(_normal[n][0],direction) < 0.0f)
+						{
+							rv.first = true;
+							rv.second += _normal[n][0];
+						}
+					}
+				}
+				else // away from the boundary
+				{
+					float push;
+					sf::Vector2f dir;
+					dir.x = direction.y;
+					dir.y = -direction.x;
+					if (sfe::scalar(dir,_normal[n][0]) > 0.0f)
+					{
+						push = 2.0f;
+					}
+					else
+					{
+						push = 4.0f;
+					}
+					rv.second += _normal[n][0]/(fabsf(dist-size)
+													/(push*size));
+				}
+
+			} else {
+				// include info from target tile
+				rv.second += target->getForce(position,direction,target,size).second;
+			}
 		}
+	} else {
+		rv.first = true;
 	}
 	return rv;
 }
@@ -140,6 +149,25 @@ void MapTile::setNormals()
 		_normal.push_back(sfe::normal(getPoint(i),
 									  getPoint((i+1)%getPointCount()),
 									  getCenter()));
+	}
+}
+
+bool MapTile::toggleAccessible()
+{
+	_access = !_access;
+	return _access;
+}
+
+bool MapTile::toggleBreaking()
+{
+	if (_breaking) {
+		_breaking = false;
+		setFillColor(sf::Color(127,127,127));
+		return false;
+	} else {
+		_breaking = true;
+		setFillColor(sf::Color(191,191,191));
+		return true;
 	}
 }
 

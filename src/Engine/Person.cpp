@@ -55,10 +55,6 @@ Person::movement Person::move(sf::Time elapsed)
 	else
 	{
 		drag += walldodge_ct.second*acceleration;
-		drag += _checkpoint.front()->getForce(_pos,
-											  _direction,
-											  _checkpoint.front(),
-											  _radius).second*acceleration;
 	}
 	_direction += drag;
 	if (sfe::length(_direction) > _speed)
