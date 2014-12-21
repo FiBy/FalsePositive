@@ -125,11 +125,13 @@ bool Map::loadFromFile(const std::string& filename)
 			edges.clear();
 			file >> tileNumber;
 			break;
-		default:
 		case '\n':
 		case '\t':
 			file.ignore();
 			break;
+		default:
+			// this should not happen, end loading
+			return false;
 		}
 	}
 	for (std::array<unsigned int,3> p : portal)
@@ -216,7 +218,7 @@ std::vector<MapComponent*> Map::getAStarPath(MapComponent* from,
 
 		for (size_t i=0; i<currentnode->getField()->getNNeighbors(); i++)
 		{
-			MapComponent* tmpnbr=currentnode->getField()->getNeighbor(i);
+			MapComponent* tmpnbr = currentnode->getField()->getNeighbor(i);
 			if (tmpnbr != nullptr) {
 				// check weather tmpneigbour has already been analyzed
 				inl = false;
@@ -226,7 +228,7 @@ std::vector<MapComponent*> Map::getAStarPath(MapComponent* from,
 						break;
 					}
 				}
-				if (!inl) {
+				if (!inl && tmpnbr->accessible()) {
 					newnode = new PathNode(tmpnbr, currentnode, to);
 					for (lit = ol.begin(); lit!= ol.end(); lit++) {
 						if ((*lit)->getField() == newnode->getField()) {
@@ -253,4 +255,16 @@ std::vector<MapComponent*> Map::getAStarPath(MapComponent* from,
 	}
 	// no path found
 	return path;
+}
+
+MapComponent* Map::getComponentAt(sf::Vector2f pos)
+{
+	for (MapTile* t : _tile)
+	{
+		if (*t == pos)
+		{
+			return t;
+		}
+	}
+	return nullptr;
 }

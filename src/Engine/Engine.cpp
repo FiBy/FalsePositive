@@ -42,9 +42,23 @@ void Engine::run()
 		sf::Event event;
 		while (_window->pollEvent(event))
 		{
-			// "close requested" event: we close the window
-			if (event.type == sf::Event::Closed)
+			MapComponent* cc = nullptr;
+			switch (event.type) {
+			case sf::Event::Closed:
+				// "close requested" event: we close the window
 				_window->close();
+				break;
+			case sf::Event::MouseButtonPressed:
+				cc = _map->getComponentAt(sf::Vector2f(	event.mouseButton.x,
+														event.mouseButton.y));
+				if (cc != nullptr)
+				{
+					cc ->toggleAccessible();
+				}
+				break;
+			default:
+				break;
+			}
 		}
 		_window->clear();
 		_map->draw();

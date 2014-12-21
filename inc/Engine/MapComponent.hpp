@@ -12,7 +12,7 @@ public:
 	MapComponent(	bool accessible = true);
 
 	inline bool accessible() const
-		{return _access; }
+		{return _accessible; }
 
 	virtual sf::Vector2f getCenter() const =0;
 
@@ -31,8 +31,10 @@ public:
 
 	virtual bool operator!=(const sf::Vector2f pos) const =0;
 
+	virtual bool toggleAccessible();
+
 protected:
-	bool _access;
+	bool _accessible;
 };
 
 #endif // MAPCOMPONENT_HPP

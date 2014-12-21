@@ -2,6 +2,12 @@
 
 
 MapComponent::MapComponent(bool accessible) :
-	_access(accessible)
+	_accessible(accessible)
 {
+}
+
+bool MapComponent::toggleAccessible()
+{
+	_accessible = !_accessible;
+	return _accessible;
 }

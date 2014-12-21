@@ -154,8 +154,17 @@ void MapTile::setNormals()
 
 bool MapTile::toggleAccessible()
 {
-	_access = !_access;
-	return _access;
+	_accessible = !_accessible;
+	if (_accessible)
+	{
+		setFillColor(sf::Color(127,127,127));
+	}
+	else
+	{
+		setFillColor(sf::Color(92,92,92));
+	}
+
+	return _accessible;
 }
 
 bool MapTile::toggleBreaking()
