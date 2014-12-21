@@ -8,7 +8,8 @@ Person::Person(Map* map, MapComponent* spawn,
 	_ct(spawn),
 	_goal(goal),
 	_map(map),
-	_speed(speed)
+	_speed(speed),
+	_start(spawn)
 {
 	setRadius(_radius);
 	setPosition(spawn->getCenter()-sf::Vector2f(getRadius(),getRadius()));

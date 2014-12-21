@@ -13,6 +13,7 @@ set(SRC_LIST
 	src/Engine/Person.cpp
 	src/Engine/Resources.cpp
 	src/Engine/SFMLext.cpp
+	src/Engine/TrackingData.cpp
 )
 set(INC_LIST
     inc/main.hpp
@@ -25,6 +26,7 @@ set(INC_LIST
 	inc/Engine/Person.hpp
 	inc/Engine/Resources.hpp
 	inc/Engine/SFMLext.hpp
+	inc/Engine/TrackingData.hpp
 )
 add_executable(${PROJECT_NAME} ${SRC_LIST} ${INC_LIST})
 

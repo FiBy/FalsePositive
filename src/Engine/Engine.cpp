@@ -13,6 +13,10 @@ Engine::~Engine()
 	{
 		delete p;
 	}
+	for (TrackingData* d : _records)
+	{
+		delete d;
+	}
 }
 
 void Engine::run()
@@ -87,6 +91,7 @@ void Engine::run()
 			case Person::movement::moved:
 				break;
 			case Person::movement::none:
+				_records.push_back(new TrackingData(_person[i]));
 				delete _person[i];
 				_person.erase(_person.begin()+i);
 				break;

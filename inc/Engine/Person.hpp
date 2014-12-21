@@ -21,12 +21,20 @@ public:
 		   std::vector<Person*>* all=nullptr,
 		   MapComponent* goal=nullptr, float speed=50.0f);
 
-
 	enum class movement
 		{ none, moved, arrived };
 
 	MapComponent* getCurrentTile() const
 		{ return _ct; }
+
+	inline MapComponent* getGoal() const
+		{ return _goal; }
+
+	inline const sf::Time getLifetime() const
+		{ return _lifetime.getElapsedTime(); }
+
+	inline MapComponent* getStart() const
+		{ return _start; }
 
 	/**
 	 * @brief move
@@ -48,6 +56,8 @@ private:
 
 	MapComponent* _goal;
 
+	sf::Clock _lifetime;
+
 	Map* _map;
 
 	sf::Vector2f _pos;
@@ -57,6 +67,8 @@ private:
 	static constexpr float _rotationangle = 0.75f;
 
 	float _speed;
+
+	MapComponent* _start;
 };
 
 #endif // PERSON_HPP

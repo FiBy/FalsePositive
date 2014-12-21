@@ -9,6 +9,7 @@
 #include "Map.hpp"
 #include "Person.hpp"
 #include "Resources.hpp"
+#include "TrackingData.hpp"
 
 class Engine
 {
@@ -23,6 +24,8 @@ private:
 	Map* _map;
 
 	std::vector<Person*> _person;
+
+	std::vector<TrackingData*> _records;
 
 	Resources* _res;
 
