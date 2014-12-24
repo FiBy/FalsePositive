@@ -80,7 +80,11 @@ Person::movement Person::move(sf::Time elapsed)
 		_ct = _checkpoint.front();
 		if ( _ct != _goal)
 		{
-			_checkpoint.push(_map->getAStarPath(_ct,_goal).front());
+			std::vector<MapComponent*> path = _map->getAStarPath(_ct,_goal);
+			if (path.size() > 0)
+			{
+				_checkpoint.push(path.front());
+			}
 		}
 		_checkpoint.pop();
 		mv = movement::arrived;

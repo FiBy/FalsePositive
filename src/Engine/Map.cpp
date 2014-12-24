@@ -56,6 +56,11 @@ MapPortal* Map::getPortal(MapPortal* veto) const
 	return getRandomEntry<MapPortal*>(_portal,veto);
 }
 
+MapTile* Map::getTile(MapTile* veto) const
+{
+	return getRandomEntry<MapTile*>(_tile,veto);
+}
+
 bool Map::loadFromFile(const std::string& filename)
 {
 	std::ifstream file(filename);

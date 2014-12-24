@@ -48,6 +48,8 @@ public:
 	const std::vector<MapPortal*>* getPortals() const
 		{ return &_portal; }
 
+	MapTile* getTile(MapTile* veto=nullptr) const;
+
 	/**
 	 * @brief loadFromFile
 	 * @param filename

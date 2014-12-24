@@ -39,6 +39,8 @@ void Engine::run()
 	sf::Clock clock;
 	sf::Clock personspawntime;
 	personspawntime.restart();
+	sf::Clock tileswitchtime;
+	tileswitchtime.restart();
 	// run the program as long as the window is open
 	while (_window->isOpen())
 	{
@@ -71,6 +73,12 @@ void Engine::run()
 			_window->draw(*p);
 		}
 		_window->display();
+
+		if (tileswitchtime.getElapsedTime().asSeconds() > 1.5f)
+		{
+			tileswitchtime.restart();
+			_map->getTile()->toggleAccessible();
+		}
 
 		if (personspawntime.getElapsedTime().asSeconds() > 0.5f)
 		{
