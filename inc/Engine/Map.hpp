@@ -39,6 +39,7 @@ public:
 	 */
 	std::vector<MapComponent*> getAStarPath( MapComponent* from,
 											 MapComponent* to,
+											 bool ignoreaccessibility = false,
 											 const unsigned int maxlen=0) const;
 
 	MapComponent* getComponentAt(sf::Vector2f pos);

@@ -82,6 +82,9 @@ bool Map::loadFromFile(const std::string& filename)
 	unsigned int tileNumber=0;
 	std::vector<sf::Vector2f> edges;
 	std::vector<std::array<unsigned int,3>> portal;
+
+	bool switchingtile;
+
 	while (tileNumber <= nTiles)
 	{
 		char nxt = file.peek();
@@ -111,13 +114,13 @@ bool Map::loadFromFile(const std::string& filename)
 			break;
 		case 't':
 			file >> tmpString;
-			if (tmpString != "tile")
+			if (tmpString.substr(0,4) != "tile")
 			{
 				return false;
 			}
-			if (edges.size() > 0)
-			{
-				_tile.push_back(new MapTile(edges));
+
+			if (edges.size() > 0) {
+				_tile.push_back(new MapTile(edges,switchingtile));
 				#ifdef DEBUG
 				tmpSstream.str("");
 				tmpSstream << tileNumber;
@@ -129,6 +132,15 @@ bool Map::loadFromFile(const std::string& filename)
 			}
 			edges.clear();
 			file >> tileNumber;
+
+			if (tmpString == "tile_static")
+			{
+				switchingtile = false;
+			}
+			else
+			{
+				switchingtile = true;
+			}
 			break;
 		case '\n':
 		case '\t':
@@ -159,6 +171,7 @@ bool Map::loadFromFile(const std::string& filename)
 			}
 			_portal.push_back(new MapPortal(edges,_tile[p[0]-1]));
 			_tile[p[0]-1]->setNeighbor(_portal.back(),p[2]-1);
+			_tile[p[0]-1]->setSwitchable(false);
 		}
 	}
 	for (MapTile* t : _tile)
@@ -174,6 +187,7 @@ bool Map::loadFromFile(const std::string& filename)
 
 std::vector<MapComponent*> Map::getAStarPath(MapComponent* from,
 											 MapComponent* to,
+											 bool ignoreaccessibility,
 											 const unsigned int maxlen) const
 {
 	// open list
@@ -233,7 +247,7 @@ std::vector<MapComponent*> Map::getAStarPath(MapComponent* from,
 						break;
 					}
 				}
-				if (!inl && tmpnbr->accessible()) {
+				if (!inl && (tmpnbr->accessible() || ignoreaccessibility)) {
 					newnode = new PathNode(tmpnbr, currentnode, to);
 					for (lit = ol.begin(); lit!= ol.end(); lit++) {
 						if ((*lit)->getField() == newnode->getField()) {

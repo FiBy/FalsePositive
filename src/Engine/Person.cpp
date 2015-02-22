@@ -85,6 +85,18 @@ Person::movement Person::move(sf::Time elapsed)
 			{
 				_checkpoint.push(path.front());
 			}
+			else
+			{
+				path = _map->getAStarPath(_ct,_goal,true);
+				if (path.size() > 0)
+				{
+					_checkpoint.push(path.front());
+				}
+				else
+				{
+					_checkpoint.push(_ct->getDirectionTo(_goal));
+				}
+			}
 		}
 		_checkpoint.pop();
 		mv = movement::arrived;

@@ -1,7 +1,8 @@
 #include "Engine/MapTile.hpp"
 
-MapTile::MapTile(std::vector<sf::Vector2f> edges) :
-	_breaking(false)
+MapTile::MapTile(std::vector<sf::Vector2f> edges, bool switchable) :
+	_breaking(false),
+	_switchable(switchable)
 {
     setPointCount(edges.size());
 	_portal.resize(edges.size(),nullptr);
@@ -152,16 +153,24 @@ void MapTile::setNormals()
 	}
 }
 
+void MapTile::setSwitchable(bool switchable)
+{
+	_switchable = switchable;
+}
+
 bool MapTile::toggleAccessible()
 {
-	_accessible = !_accessible;
-	if (_accessible)
+	if (_switchable)
 	{
-		setFillColor(sf::Color(127,127,127));
-	}
-	else
-	{
-		setFillColor(sf::Color(92,92,92));
+		_accessible = !_accessible;
+		if (_accessible)
+		{
+			setFillColor(sf::Color(127,127,127));
+		}
+		else
+		{
+			setFillColor(sf::Color(92,92,92));
+		}
 	}
 
 	return _accessible;

@@ -14,7 +14,7 @@
 class MapTile : public MapComponent, public sf::ConvexShape
 {
 public:
-	MapTile(std::vector<sf::Vector2f> edges);
+	MapTile(std::vector<sf::Vector2f> edges, bool switchable=true);
 
 	sf::Vector2f getCenter() const;
 
@@ -69,6 +69,8 @@ public:
 
 	void setNormals();
 
+	void setSwitchable(bool switchable);
+
 	bool toggleAccessible();
 
 	bool toggleBreaking();
@@ -90,6 +92,8 @@ private:
 	 * _normal[i][1] stores center of side
 	 */
 	std::vector<std::array<sf::Vector2f,2>> _normal;
+
+	bool _switchable;
 };
 
 #endif // MAPTILE_HPP
