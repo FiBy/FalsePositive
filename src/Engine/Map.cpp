@@ -68,8 +68,9 @@ bool Map::loadFromFile(const std::string& filename)
 	#ifdef DEBUG
 	std::stringstream tmpSstream;
 	#endif // DEBUG
-	int tmpIntX;
-	int tmpIntY;
+    _size = sf::Vector2u(0,0);
+    unsigned int tmpX;
+    unsigned int tmpY;
 	unsigned int tmpUint;
 
 	file >> tmpString;
@@ -96,8 +97,10 @@ bool Map::loadFromFile(const std::string& filename)
 			{
 				return false;
 			}
-			file >> tmpIntX >> tmpIntY;
-			edges.push_back(sf::Vector2f(tmpIntX,tmpIntY));
+            file >> tmpX >> tmpY;
+            _size.x = std::max(_size.x,tmpX);
+            _size.y = std::max(_size.y,tmpY);
+            edges.push_back(sf::Vector2f(tmpX,tmpY));
 			file.ignore();
 			nxt = file.peek();
 			if (nxt == 'p')

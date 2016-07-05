@@ -49,6 +49,9 @@ public:
 	const std::vector<MapPortal*>* getPortals() const
 		{ return &_portal; }
 
+    sf::Vector2u getSize() const
+        { return _size; }
+
 	MapTile* getTile(MapTile* veto=nullptr) const;
 
 	/**
@@ -66,6 +69,8 @@ private:
 	sf::RenderTarget* _rendertarget;
 
 	Resources* _resources;
+
+    sf::Vector2u _size;
 
 	#ifdef DEBUG
 	std::vector<sf::Text> _enumerations;

@@ -31,12 +31,12 @@ set(INC_LIST
 add_executable(${PROJECT_NAME} ${SRC_LIST} ${INC_LIST})
 
 if(DEFINED CMAKE_BUILD_TYPE)
-	if(CMAKE_BUILD_TYPE STREQUAL "Release")
-		add_definitions(-O3)
-		MESSAGE ("Doing release compile, using optimization flags.")
-	else()
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		add_definitions(-g -Wall -DDEBUG)
 		MESSAGE ("Doing debug compile, including debug symbols.")
+	else()
+		add_definitions(-O3)
+		MESSAGE ("Doing release compile, using optimization flags.")
 	endif()
 endif()
 

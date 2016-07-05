@@ -5,6 +5,8 @@ Engine::Engine(sf::RenderWindow* window, Resources* res, Map* map) :
 	_res(res),
 	_window(window)
 {
+    _view.setSize(map->getSize().x,map->getSize().y);
+    _view.setCenter(map->getSize().x/2,map->getSize().y/2);
 }
 
 Engine::~Engine()
@@ -24,7 +26,9 @@ void Engine::run()
 	std::random_device rdev{};
 	static std::default_random_engine e{rdev()};
 	std::normal_distribution<float> r(0,25);
-	float speed;
+    float speed;
+
+    _window->setView(_view);
 
 	MapPortal* portal1;
 	MapPortal* portal2;
@@ -40,32 +44,41 @@ void Engine::run()
 	sf::Clock personspawntime;
 	personspawntime.restart();
 	sf::Clock tileswitchtime;
-	tileswitchtime.restart();
+    tileswitchtime.restart();
+    sf::Vector2f worldPos;
 	// run the program as long as the window is open
 	while (_window->isOpen())
 	{
 		// check all the window's events that were triggered since the last iteration of the loop
 		sf::Event event;
 		while (_window->pollEvent(event))
-		{
-			MapComponent* cc = nullptr;
+        {
+            MapComponent* cc = nullptr;
 			switch (event.type) {
 			case sf::Event::Closed:
 				// "close requested" event: we close the window
 				_window->close();
 				break;
-			case sf::Event::MouseButtonPressed:
-				cc = _map->getComponentAt(sf::Vector2f(	event.mouseButton.x,
-														event.mouseButton.y));
+            case sf::Event::MouseButtonPressed:
+                worldPos = _window->mapPixelToCoords(_pointerpos);
+                cc = _map->getComponentAt(worldPos);
 				if (cc != nullptr)
 				{
 					cc ->toggleAccessible();
 				}
-				break;
+                break;
+            case sf::Event::MouseMoved:
+                _pointerpos = sf::Mouse::getPosition(*_window);
+                break;
+            case sf::Event::Resized:
+                _view.setSize(event.size.width, event.size.height);
+                _window->setView(_view);
+                break;
 			default:
 				break;
 			}
-		}
+        }
+        _scroll();
 		_window->clear();
 		_map->draw();
 		for (Person* p : _person)
@@ -107,5 +120,26 @@ void Engine::run()
 				break;
 			}
 		}
-	}
+    }
+}
+
+void Engine::_scroll()
+{
+    if (_map->getSize().x > _window->getSize().x) {
+        if (_pointerpos.x < 20) {
+            _view.move(-3, 0);
+        }
+        if (_pointerpos.x > static_cast<int>(_window->getSize().x)-20) {
+            _view.move( 3, 0);
+        }
+    }
+    if (_map->getSize().y > _window->getSize().y) {
+        if (_pointerpos.y < 20) {
+            _view.move( 0,-3);
+        }
+        if (_pointerpos.y > static_cast<int>(_window->getSize().y)-20) {
+            _view.move( 0, 3);
+        }
+        _window->setView(_view);
+    }
 }

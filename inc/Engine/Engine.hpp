@@ -3,6 +3,7 @@
 
 #include <random>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/View.hpp>
 #include <SFML/Window.hpp>
 #include <vector>
 
@@ -21,15 +22,22 @@ public:
 	void run();
 
 private:
+    void _scroll();
+
+private:
 	Map* _map;
 
 	std::vector<Person*> _person;
+
+    sf::Vector2i _pointerpos;
 
 	std::vector<TrackingData*> _records;
 
 	Resources* _res;
 
-	sf::RenderWindow* _window;
+    sf::View _view;
+
+    sf::RenderWindow* _window;
 };
 
 #endif // ENGINE_HPP
