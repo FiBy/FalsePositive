@@ -11,12 +11,12 @@
 #include "Engine/SFMLext.hpp"
 #include "main.hpp"
 
-class MapTile : public MapComponent, public sf::ConvexShape
+class MapTile : public MapComponent
 {
 public:
 	MapTile(std::vector<sf::Vector2f> edges, bool switchable=true);
 
-	sf::Vector2f getCenter() const;
+    sf::Vector2f getCenter() const;
 
 	/**
 	 * @brief getDirectionTo
@@ -24,6 +24,9 @@ public:
 	 * @return direction to goal
 	 */
 	MapComponent* getDirectionTo(MapComponent* goal) const;
+
+    inline std::vector<sf::Drawable*> getDrawables() const
+        { return _drawables; }
 
 	/**
 	 * @brief getForce
@@ -51,7 +54,13 @@ public:
 		{ return _portal.size(); }
 
 	std::vector<std::array<sf::Vector2f,2>> getNormals() const
-		{ return _normal; }
+        { return _normal; }
+
+    inline sf::Vector2f getPoint(size_t i) const
+        { return _area.getPoint(i); }
+
+    inline size_t getPointCount() const
+        { return _area.getPointCount(); }
 
 	/**
 	 * @brief setNeighbor
@@ -81,7 +90,11 @@ public:
 		{ return !operator==(pos); }
 
 private:
+    sf::ConvexShape _area;
+
 	bool _breaking;
+
+    std::vector<sf::Drawable*> _drawables;
 
 	std::vector<MapComponent*> _portal;
 

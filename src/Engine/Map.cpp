@@ -23,7 +23,10 @@ void Map::draw()
 {
 	for(MapTile* tile : _tile)
 	{
-		_rendertarget->draw(*tile);
+        for (sf::Drawable* drawable : tile->getDrawables())
+        {
+            _rendertarget->draw(*drawable);
+        }
 		#ifdef DEBUG
 		for (auto n : tile->getNormals())
 		{
@@ -163,7 +166,7 @@ bool Map::loadFromFile(const std::string& filename)
 		else
 		{
 			std::array<sf::Vector2f,2> edges;
-			edges[0] = _tile[p[0]-1]->getPoint(p[2]-1);
+            edges[0] = _tile[p[0]-1]->getPoint(p[2]-1);
 			if (p[2] < _tile[p[0]-1]->getPointCount())
 			{
 				edges[1] = _tile[p[0]-1]->getPoint(p[2]);
@@ -250,7 +253,7 @@ std::vector<MapComponent*> Map::getAStarPath(MapComponent* from,
 						break;
 					}
 				}
-				if (!inl && (tmpnbr->accessible() || ignoreaccessibility)) {
+                if (!inl && (tmpnbr->accessible() || ignoreaccessibility)) {
 					newnode = new PathNode(tmpnbr, currentnode, to);
 					for (lit = ol.begin(); lit!= ol.end(); lit++) {
 						if ((*lit)->getField() == newnode->getField()) {

@@ -11,8 +11,11 @@ class MapComponent
 public:
 	MapComponent(	bool accessible = true);
 
-	inline bool accessible() const
+    inline bool accessible() const
 		{return _accessible; }
+
+    virtual inline bool accessibleFrom(MapComponent* other) const
+        { return accessible(); }
 
 	virtual sf::Vector2f getCenter() const =0;
 

@@ -4,17 +4,18 @@ MapTile::MapTile(std::vector<sf::Vector2f> edges, bool switchable) :
 	_breaking(false),
 	_switchable(switchable)
 {
-    setPointCount(edges.size());
+    _area.setPointCount(edges.size());
 	_portal.resize(edges.size(),nullptr);
     for (unsigned int p=0; p<edges.size(); p++)
     {
-		setPoint(p,edges[p]);
+        _area.setPoint(p,edges[p]);
     }
-	setFillColor(sf::Color(127,127,127));
+    _area.setFillColor(sf::Color(127,127,127));
 	#ifdef DEBUG
-	setOutlineColor(sf::Color::White);
-	setOutlineThickness(1);
+    _area.setOutlineColor(sf::Color::White);
+    _area.setOutlineThickness(1);
 	#endif //DEBUG
+    _drawables.push_back(&_area);
 }
 
 sf::Vector2f MapTile::getCenter() const
@@ -22,7 +23,7 @@ sf::Vector2f MapTile::getCenter() const
 	sf::Vector2f sum = sf::Vector2f(0,0);
 	for (unsigned int i=0;i<getPointCount();i++)
 	{
-		sum += getPoint(i);
+        sum += _area.getPoint(i);
 	}
 	return sf::Vector2f(sum.x/getPointCount(),sum.y/getPointCount()-8);
 }
@@ -165,11 +166,11 @@ bool MapTile::toggleAccessible()
 		_accessible = !_accessible;
 		if (_accessible)
 		{
-			setFillColor(sf::Color(127,127,127));
+            _area.setFillColor(sf::Color(127,127,127));
 		}
 		else
 		{
-			setFillColor(sf::Color(92,92,92));
+            _area.setFillColor(sf::Color(92,92,92));
 		}
 	}
 
@@ -180,11 +181,11 @@ bool MapTile::toggleBreaking()
 {
 	if (_breaking) {
 		_breaking = false;
-		setFillColor(sf::Color(127,127,127));
+        _area.setFillColor(sf::Color(127,127,127));
 		return false;
 	} else {
 		_breaking = true;
-		setFillColor(sf::Color(191,191,191));
+        _area.setFillColor(sf::Color(191,191,191));
 		return true;
 	}
 }
