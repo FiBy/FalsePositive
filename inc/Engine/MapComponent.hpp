@@ -14,7 +14,7 @@ public:
     inline bool accessible() const
 		{return _accessible; }
 
-    virtual inline bool accessibleFrom(MapComponent* other) const
+    virtual inline bool accessibleFrom(const MapComponent* other) const
         { return accessible(); }
 
 	virtual sf::Vector2f getCenter() const =0;

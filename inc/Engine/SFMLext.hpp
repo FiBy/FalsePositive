@@ -3,6 +3,7 @@
 
 #include <array>
 #include <cmath>
+#include <iostream>
 #include <SFML/System/Vector2.hpp>
 
 #include "Engine/SFMLext.hpp"
@@ -30,4 +31,13 @@ std::array<sf::Vector2f,2> normal(const sf::Vector2f p1,
 								  const sf::Vector2f p2,
 								  const sf::Vector2f direction);
 }
+
+/**
+ * @brief operator << to print Vector2f
+ * @param stream
+ * @param vec
+ * @return
+ */
+std::ostream& operator<< (std::ostream& stream, const sf::Vector2f vec);
+
 #endif // SFMLEXT_HPP

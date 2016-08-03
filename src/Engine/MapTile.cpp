@@ -50,7 +50,7 @@ std::pair<bool, sf::Vector2f> MapTile::getForce(const sf::Vector2f position,
 	if (!_breaking) {
 		for (unsigned int n=0; n<_normal.size(); n++)
 		{
-			if (_portal[n] != target || !(target->accessible())) {
+            if (_portal[n] != target || !(target->accessibleFrom(this))) {
 				float dist = sfe::scalar(position-_normal[n][1],_normal[n][0]);
 				if (operator!=(position)) // outside of the tile, correct distance
 				{

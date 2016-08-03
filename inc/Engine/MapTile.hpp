@@ -16,6 +16,8 @@ class MapTile : public MapComponent
 public:
 	MapTile(std::vector<sf::Vector2f> edges, bool switchable=true);
 
+    virtual ~MapTile(){}
+
     sf::Vector2f getCenter() const;
 
 	/**

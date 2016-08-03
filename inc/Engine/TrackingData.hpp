@@ -6,6 +6,7 @@
 
 #include "MapComponent.hpp"
 #include "Person.hpp"
+#include "SFMLext.hpp"
 
 class TrackingData
 {

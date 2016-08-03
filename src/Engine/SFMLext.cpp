@@ -40,3 +40,9 @@ std::array<sf::Vector2f,2> sfe::normal(	const sf::Vector2f p1,
 	n.y /= len_n;
 	return std::array<sf::Vector2f,2>{{n,0.5f*(p1+p2)}};
 }
+
+std::ostream& operator<<(std::ostream &stream, const sf::Vector2f vec)
+{
+    stream << '(' << vec.x << ',' << vec.y << ')';
+    return stream;
+}

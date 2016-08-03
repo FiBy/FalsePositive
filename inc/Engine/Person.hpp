@@ -68,7 +68,11 @@ private:
 
 	float _speed;
 
-	MapComponent* _start;
+    MapComponent* _start;
+
+    void addNewCheckpoint();
+
+    void clearCheckpoints();
 };
 
 #endif // PERSON_HPP

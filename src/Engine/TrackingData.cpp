@@ -10,6 +10,8 @@ TrackingData::TrackingData(Person* p) :
 TrackingData::~TrackingData()
 {
 #ifdef DEBUG
-	std::cout << _lifetime.asMilliseconds() << std::endl;
+    std::cout << _start->getCenter() << '\t'
+              << _goal->getCenter() << '\t'
+              << _lifetime.asMilliseconds() << std::endl;
 #endif
 }

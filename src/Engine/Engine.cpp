@@ -90,7 +90,7 @@ void Engine::run()
 		if (tileswitchtime.getElapsedTime().asSeconds() > 1.5f)
 		{
 			tileswitchtime.restart();
-			_map->getTile()->toggleAccessible();
+            _map->getTile()->toggleAccessible();
 		}
 
 		if (personspawntime.getElapsedTime().asSeconds() > 0.5f)
